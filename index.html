@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Studio Beauty</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#111;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* HEADER */
+
+header{
+    position:fixed;
+    width:100%;
+    top:0;
+    left:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 10%;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:700;
+    color:#ff7aa2;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
+    font-weight:500;
+}
+
+nav a:hover{
+    color:#ff7aa2;
+}
+
+/* HERO */
+
+.hero{
+    height:100vh;
+    background: url("img/fundo.jpg") center/cover no-repeat;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+}
+
+.overlay{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.65);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:700px;
+    animation:fadeUp 1.2s ease;
+}
+
+.hero h1{
+    font-size:70px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:20px;
+    margin-bottom:30px;
+}
+
+.btn{
+    display:inline-block;
+    padding:16px 38px;
+    border-radius:40px;
+    background:#ff7aa2;
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+    background:#ff4f85;
+}
+
+/* GERAL */
+
+section{
+    padding:100px 10%;
+}
+
+.section-title{
+    text-align:center;
+    font-size:45px;
+    margin-bottom:60px;
+    color:#ff7aa2;
+}
+
+/* SOBRE */
+
+.sobre{
+    display:flex;
+    align-items:center;
+    gap:60px;
+    flex-wrap:wrap;
+}
+
+.sobre img{
+    width:400px;
+    border-radius:25px;
+    box-shadow:0 0 30px rgba(255,122,162,0.2);
+}
+
+.sobre-text{
+    flex:1;
+}
+
+.sobre-text h2{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.sobre-text p{
+    line-height:1.8;
+    color:#ccc;
+}
+
+/* SERVIÇOS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#1c1c1c;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    transition:0.4s;
+    border:1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 30px rgba(255,122,162,0.15);
+}
+
+.card i{
+    font-size:45px;
+    margin-bottom:20px;
+    color:#ff7aa2;
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#bbb;
+}
+
+/* PORTFÓLIO */
+
+.galeria{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.galeria img{
+    width:100%;
+    height:350px;
+    object-fit:cover;
+    border-radius:20px;
+    transition:0.4s;
+}
+
+.galeria img:hover{
+    transform:scale(1.03);
+}
+
+/* DEPOIMENTOS */
+
+.depoimentos{
+    background:#1a1a1a;
+}
+
+.depoimentos-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
+
+.depoimento{
+    background:#222;
+    padding:30px;
+    border-radius:20px;
+}
+
+.depoimento p{
+    color:#ccc;
+    margin-bottom:20px;
+    line-height:1.7;
+}
+
+.depoimento h4{
+    color:#ff7aa2;
+}
+
+/* CONTATO */
+
+.contato{
+    text-align:center;
+}
+
+.contato-info{
+    margin-top:40px;
+}
+
+.contato-info p{
+    margin:20px 0;
+    font-size:20px;
+}
+
+.contato-info i{
+    color:#ff7aa2;
+    margin-right:10px;
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#25d366;
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:35px;
+    text-decoration:none;
+    z-index:999;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+/* FOOTER */
+
+footer{
+    background:black;
+    text-align:center;
+    padding:30px;
+    color:#777;
+}
+
+/* ANIMAÇÃO */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:900px){
+
+    header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .hero h1{
+        font-size:45px;
+    }
+
+    .sobre{
+        flex-direction:column;
+    }
+
+    .sobre img{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">Sonia Aguiar Studio Hair</div>
+
+    <nav>
+        <a href="#inicio">Início</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#portfolio">Portfólio</a>
+        <a href="#contato">Contato</a>
+    </nav>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero" id="inicio">
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+
+        <h1>Transforme sua beleza</h1>
+
+        <p>
+            Especialista em cabelos, autoestima e transformação feminina.
+        </p>
+
+        <a href="https://wa.me/5562991198432" class="btn">
+            Agendar Horário
+        </a>
+
+    </div>
+
+</section>
+
+<!-- SOBRE -->
+
+<section id="sobre">
+
+    <div class="sobre">
+
+        <img src="\img\foto.jpeg">
+
+        <div class="sobre-text">
+
+            <h2>Sobre Mim</h2>
+
+            <p>
+                Especialista há mais de 25 anos em cuidados capilares, oferecendo atendimento personalizado,
+                técnicas modernas e resultados incríveis para realçar ainda mais a beleza feminina.
+                Cortes personalizados, coloração, hidratação, reconstrução e transformação capilar, alisamneto e vários outros procedimentos.
+                Além de um ambiente descontraído e acolhedor.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SERVIÇOS -->
+
+<section id="servicos">
+
+    <h2 class="section-title">Serviços</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <i class="fa-solid fa-scissors"></i>
+            <h3>Corte Feminino</h3>
+            <p>Cortes modernos e personalizados.</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <h3>Coloração</h3>
+            <p>Morena iluminada, loiro e tonalização.</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-droplet"></i>
+            <h3>Hidratação</h3>
+            <p>Tratamentos para brilho e recuperação.</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-fire"></i>
+            <h3>Escova</h3>
+            <p>Escovas lisas, modeladas e finalização.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PORTFÓLIO -->
+
+<section id="portfolio">
+
+    <h2 class="section-title">Portfólio</h2>
+
+    <div class="galeria">
+
+        <img src="\img\cabelo1.jpeg">
+
+        <img src="\img\cabelo2.jpeg">
+
+        <img src="\img\cabelo3.jpeg">
+
+        <img src="\img\cabelo4.jpeg">
+
+        <img src="\img\unha1.jfif">
+
+        <img src="\img\unha3.jfif">
+
+    </div>
+
+</section>
+
+<!-- DEPOIMENTOS -->
+
+<section class="depoimentos">
+
+    <h2 class="section-title">Depoimentos</h2>
+
+    <div class="depoimentos-container">
+
+        <div class="depoimento">
+
+            <p>
+                “Atendimento impecável e resultado maravilhoso.
+                Meu cabelo ficou perfeito.”
+            </p>
+
+            <h4>— Ana Paula</h4>
+
+        </div>
+
+        <div class="depoimento">
+
+            <p>
+                “Profissional incrível, ambiente muito aconchegante.”
+            </p>
+
+            <h4>— Juliana</h4>
+
+        </div>
+
+        <div class="depoimento">
+
+            <p>
+                “A melhor, sou fiel há anos.”
+            </p>
+
+            <h4>— Fernanda</h4>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CONTATO -->
+
+<section class="contato" id="contato">
+
+    <h2 class="section-title">Contato</h2>
+
+    <p>
+        Entre em contato e agende seu horário.
+    </p>
+
+    <div class="contato-info">
+
+        <p>
+            <i class="fa-brands fa-whatsapp"></i>
+            (62) 99119-8432
+        </p>
+
+
+        <p>
+            <i class="fa-solid fa-location-dot"></i>
+            Anápolis - GO
+        </p>
+
+        <br>
+
+        <a href="https://wa.me/5562991198432" class="btn">
+            Chamar no WhatsApp
+        </a>
+
+    </div>
+
+</section>
+
+<!-- BOTÃO WHATS -->
+
+<a href="https://wa.me/5562991198432" class="whatsapp">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 Sonia Aguiar Studio Hair — Todos os direitos reservados.
+    </p>
+
+</footer>
+
+</body>
+</html>
