@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agendamento | Sonia Aguiar Studio Hair</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#111;color:#fff;font-family:Poppins,sans-serif;padding:28px 16px}a{color:#ff7aa2}.wrap{max-width:720px;margin:0 auto}.brand{text-align:center;color:#ff7aa2;font-weight:700;font-size:25px}.panel{background:#1c1c1c;border:1px solid #333;border-radius:22px;padding:28px;margin-top:24px;box-shadow:0 12px 40px #0005}h1{margin:8px 0 4px;text-align:center;color:#ff7aa2}p.sub{text-align:center;color:#ccc;margin:0 0 24px}label{display:block;margin:15px 0 6px;color:#eee}input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #555;background:#101010;color:white;font:inherit}button{width:100%;margin-top:22px;border:0;border-radius:30px;background:#ff7aa2;color:white;padding:14px;font:600 16px Poppins;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.msg{margin-top:16px;padding:12px;border-radius:10px;display:none}.ok{display:block;background:#173c2b;color:#b9f5cf}.err{display:block;background:#4a2028;color:#ffd3da}.back{text-align:center;margin-top:20px}.hint{font-size:13px;color:#aaa}
+</style></head>
+<body><main class="wrap"><div class="brand">Sonia Aguiar Studio Hair</div><section class="panel"><h1>Agende seu horário</h1><p class="sub">Escolha o serviço, a data e um horário disponível.</p>
+<form id="bookingForm">
+<label for="nome">Nome completo</label><input id="nome" required minlength="2" autocomplete="name">
+<label for="telefone">WhatsApp</label><input id="telefone" required minlength="8" autocomplete="tel" placeholder="(62) 99999-9999">
+<label for="servico">Serviço</label><select id="servico" required><option value="">Carregando serviços...</option></select>
+<label for="data">Data</label><input id="data" type="date" required>
+<label for="horario">Horário disponível</label><select id="horario" required disabled><option value="">Escolha serviço e data primeiro</option></select>
+<p class="hint">Atendimento de terça a sábado, das 8h às 18h. Pausa para almoço das 12h às 13h. Os horários são exibidos conforme a duração do serviço.</p>
+<button id="submit" type="submit">Confirmar agendamento</button><div id="message" class="msg" role="status"></div>
+</form></section><p class="back"><a href="index.html">← Voltar ao site</a></p></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<script>
+const $=s=>document.querySelector(s);const msg=$('#message');let db;
+function show(text,type){msg.textContent=text;msg.className='msg '+type;}
+function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
+const today=localDate(new Date());$('#data').min=today;
+(async()=>{try{if(!window.SUPABASE_ANON_KEY||window.SUPABASE_ANON_KEY.includes('COLE_AQUI'))throw Error('Falta configurar a chave pública em supabase-config.js.');db=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);const {data,error}=await db.from('servicos').select('id,nome,duracao_minutos').eq('ativo',true).order('nome');if(error)throw error;$('#servico').innerHTML='<option value="">Selecione um serviço</option>'+data.map(s=>`<option value="${s.id}">${s.nome} — ${s.duracao_minutos} min</option>`).join('');}catch(e){show(e.message,'err');}})();
+async function loadSlots(){const servico=$('#servico').value,data=$('#data').value;$('#horario').disabled=true;$('#horario').innerHTML='<option value="">Carregando...</option>';if(!servico||!data)return;try{const {data:slots,error}=await db.rpc('horarios_disponiveis',{p_data:data,p_servico_id:Number(servico)});if(error)throw error;$('#horario').innerHTML=slots.length?'<option value="">Selecione um horário</option>'+slots.map(s=>`<option value="${s.hora_inicio}">${s.hora_inicio.slice(0,5)}</option>`).join(''):'<option value="">Nenhum horário disponível</option>';$('#horario').disabled=!slots.length;}catch(e){$('#horario').innerHTML='<option value="">Não foi possível carregar</option>';show(e.message,'err');}}
+$('#servico').addEventListener('change',loadSlots);$('#data').addEventListener('change',loadSlots);
+$('#bookingForm').addEventListener('submit',async e=>{e.preventDefault();$('#submit').disabled=true;try{const {data,error}=await db.rpc('criar_agendamento',{p_nome:$('#nome').value,p_telefone:$('#telefone').value,p_servico_id:Number($('#servico').value),p_data:$('#data').value,p_hora_inicio:$('#horario').value});if(error)throw error;show('Agendamento solicitado com sucesso! Seu código de confirmação é #'+data+'.','ok');$('#bookingForm').reset();$('#horario').disabled=true;$('#horario').innerHTML='<option value="">Escolha serviço e data primeiro</option>';}catch(e){show(e.message||'Não foi possível concluir o agendamento.','err');await loadSlots();}finally{$('#submit').disabled=false;}});
+</script></body></html>
